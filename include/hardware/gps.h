@@ -311,6 +311,14 @@ typedef uint32_t GnssMeasurementFlags;
 /** A valid 'carrier phase uncertainty' is stored in the data structure. */
 #define GNSS_MEASUREMENT_HAS_CARRIER_PHASE_UNCERTAINTY         (1<<12)
 
+/**
+ * The value of 'pseudorange rate' is uncorrected.
+ * This is a mandatory flag. See comments of
+ * GpsMeasurement::pseudorange_rate_mps for more details.
+ */
+#define GNSS_MEASUREMENT_HAS_UNCORRECTED_PSEUDORANGE_RATE      (1<<18)
+
+
 /* The following typedef together with its constants below are deprecated, and
  * will be removed in the next release. */
 typedef uint8_t GpsLossOfLock;
@@ -664,6 +672,9 @@ typedef struct {
      * might rely in the old (wrong) behavior.
      */
     uint16_t lac;
+#ifdef AGPS_USE_PSC
+    uint16_t psc;
+#endif
     /** Cell id in 2G. Utran Cell id in 3G. Cell Global Id EUTRA in LTE. */
     uint32_t cid;
     /** Tracking Area Code in LTE. */
