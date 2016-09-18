@@ -1717,11 +1717,6 @@ void *exynos_camera_auto_focus_thread(void *data)
 	if (exynos_camera->focus_mode != FOCUS_MODE_AUTO) {
 		exynos_param_string_set(exynos_camera, "focus-mode", "auto");
 		rc = exynos_camera_params_apply(exynos_camera);
-		if (rc < 0) {
-			ALOGE("%s: Unable to apply params", __func__);
-			return -1;
-		}
-
 	}
 
 	rc = exynos_v4l2_s_ctrl(exynos_camera, 0, V4L2_CID_CAMERA_SET_AUTO_FOCUS, AUTO_FOCUS_ON);
