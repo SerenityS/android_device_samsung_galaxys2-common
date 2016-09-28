@@ -23,7 +23,7 @@
 #include <stdio.h>
 
 #define REAL_RIL_NAME				"/system/lib/libsec-ril.so"
-
+#define NEW_VERSION 12
 
 static RIL_RadioFunctions const *mRealRadioFuncs;
 static const struct RIL_Env *mEnv;
@@ -84,11 +84,14 @@ const RIL_RadioFunctions* RIL_Init(const struct RIL_Env *env, int argc, char **a
 		goto out_fail;
 	}
 
+	RLOGD("Wrapped RIL implemention version is '%s'\n", mRealRadioFuncs->getVersion());
+
 	//copy the real RIL's info struct, then replace the onRequest pointer with our own
 	rilInfo = *mRealRadioFuncs;
 	rilInfo.onRequest = rilOnRequest;
 
-	RLOGD("Wrapped RIL version is '%s'\n", mRealRadioFuncs->getVersion());
+	RLOGD("Overriding RIL version %d with %d", rilInfo.version, NEW_VERSION);
+	rilInfo.version = NEW_VERSION;
 
 	//we're all good - return to caller
 	return &rilInfo;
