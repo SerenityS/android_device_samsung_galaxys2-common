@@ -64,7 +64,8 @@ PRODUCT_PACKAGES := \
 # Legacy RIL
 PRODUCT_PACKAGES += \
     libsamsung_symbols \
-    ril-wrapper
+    ril-wrapper \
+    ipc-modem
 
 # Audio Packages
 PRODUCT_PACKAGES += \
