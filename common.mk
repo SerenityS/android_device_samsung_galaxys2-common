@@ -139,10 +139,6 @@ PRODUCT_PACKAGES += \
     resize2fs_static \
     setup_fs
 
-# Storage
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sys.sdcardfs=true
-
 # F2FS Filesystem
 PRODUCT_PACKAGES += \
     fsck.f2fs \
