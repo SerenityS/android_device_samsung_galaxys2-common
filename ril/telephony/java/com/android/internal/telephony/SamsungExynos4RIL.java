@@ -480,7 +480,7 @@ public class SamsungExynos4RIL extends RIL implements CommandsInterface {
             return;
         }
 
-/*
+
         switch(response) {
             case RIL_UNSOL_STK_PROACTIVE_COMMAND:
                 if (RILJ_LOGD) unsljLogRet(response, ret);
@@ -504,7 +504,6 @@ public class SamsungExynos4RIL extends RIL implements CommandsInterface {
                 }
             break;
         }
-*/
     }
 
     @Override
