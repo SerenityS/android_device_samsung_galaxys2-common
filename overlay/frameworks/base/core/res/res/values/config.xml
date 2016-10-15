@@ -164,7 +164,10 @@
     <!-- Boolean to enable stk functionality on Samsung phones -->
     <!--bool name="config_samsung_stk">true</bool-->
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> rINanDO/staging/cm-14.0
     <!-- Set this to true to enable the platform's auto-power-save modes like doze and
          app standby.  These are not enabled by default because they require a standard
          cloud-to-device messaging service for apps to interact correctly with the modes
@@ -173,4 +176,11 @@
          correctly use them when installed on your device.  Otherwise, keep this disabled
          so that applications can still use their own mechanisms. -->
     <bool name="config_enableAutoPowerModes">true</bool>
+
+    <!-- Screen brightness when dozing. -->
+    <integer name="config_screenBrightnessDoze">17</integer>
+
+    <!-- Dream of notifications -->
+    <string name="config_dozeComponent">com.android.systemui/com.android.systemui.doze.DozeService</string>
+    <bool name="config_dozeAfterScreenOff">true</bool>
 </resources>

@@ -55,6 +55,8 @@ BOARD_NAND_SPARE_SIZE := 128
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_BASE := 0x40000000
 BOARD_KERNEL_CMDLINE := console=ttySAC2,115200 consoleblank=0
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androidkernel-
+TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
 
 # Include an expanded selection of fonts
 EXTENDED_FONT_FOOTPRINT := true
@@ -66,7 +68,7 @@ MALLOC_SVELTE := true
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1073741824
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 671088640
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 2147467264
 BOARD_FLASH_BLOCK_SIZE := 4096
 
@@ -111,10 +113,10 @@ BOARD_USE_YAMAHA_MC1N2_AUDIO := true
 
 # RIL
 BOARD_PROVIDES_LIBRIL := true
+BOARD_PROVIDES_LIBREFERENCE_RIL := true
 BOARD_MODEM_TYPE := xmm6260
 BOARD_RIL_CLASS := ../../../device/samsung/galaxys2-common/ril
 BOARD_GLOBAL_CFLAGS += -DDISABLE_ASHMEM_TRACKING
-TARGET_NEEDS_TEXT_RELOCATIONS := true
 
 # Camera
 BOARD_USES_PROPRIETARY_LIBFIMC := true
@@ -122,24 +124,18 @@ BOARD_CAMERA_HAVE_ISO := true
 BOARD_GLOBAL_CFLAGS += -DHAVE_ISO
 BOARD_GLOBAL_CFLAGS += -DSAMSUNG_CAMERA_HARDWARE
 
-# Wifi
-BOARD_WLAN_DEVICE                := bcmdhd
-BOARD_WLAN_DEVICE_REV            := bcm4330_b1
-WPA_SUPPLICANT_VERSION           := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
-BOARD_HOSTAPD_DRIVER             := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_bcmdhd
-WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/dhd.ko"
-WIFI_DRIVER_FW_PATH_PARAM        := "/sys/module/dhd/parameters/firmware_path"
-WIFI_DRIVER_FW_PATH_STA          := "/system/etc/wifi/bcmdhd_sta.bin"
-WIFI_DRIVER_FW_PATH_AP           := "/system/etc/wifi/bcmdhd_apsta.bin"
-WIFI_DRIVER_FW_PATH_P2P          := "/system/etc/wifi/bcmdhd_p2p.bin"
-WIFI_DRIVER_MODULE_NAME          := "dhd"
-WIFI_DRIVER_MODULE_ARG           := "firmware_path=/system/etc/wifi/bcmdhd_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
-WIFI_DRIVER_MODULE_AP_ARG        := "firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
-WIFI_BAND                        := 802_11_ABG
-BOARD_HAVE_SAMSUNG_WIFI          := true
+# WiFi
+BOARD_WLAN_DEVICE := bcmdhd
+BOARD_HAVE_SAMSUNG_WIFI := true
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_${BOARD_WLAN_DEVICE}
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_${BOARD_WLAN_DEVICE}
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/dhd/parameters/firmware_path"
+WIFI_DRIVER_FW_PATH_STA     := "/system/etc/wifi/bcmdhd_sta.bin"
+WIFI_DRIVER_FW_PATH_AP      := "/system/etc/wifi/bcmdhd_apsta.bin"
+WIFI_DRIVER_FW_PATH_P2P     := "/system/etc/wifi/bcmdhd_p2p.bin"
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
