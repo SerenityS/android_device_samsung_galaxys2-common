@@ -162,12 +162,8 @@
     <bool name="config_disableMenuKeyInLockScreen">true</bool>
 
     <!-- Boolean to enable stk functionality on Samsung phones -->
-    <!--bool name="config_samsung_stk">true</bool-->
+    <bool name="config_samsung_stk">true</bool>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> rINanDO/staging/cm-14.0
     <!-- Set this to true to enable the platform's auto-power-save modes like doze and
          app standby.  These are not enabled by default because they require a standard
          cloud-to-device messaging service for apps to interact correctly with the modes
