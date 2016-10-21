@@ -529,7 +529,7 @@ typedef uint8_t                         GnssConstellationType;
 
 /**
  * After renaming GPS to GNSS in Android N GPSCallbacks structs have been changed.
- * This breaks some GPS blobs (for eg. i9100).
+ * Some GPS-blobs fails at "native_init" (for eg. i9100).
  */
 #define GPS_LEGACY_CALLBACKS
 
@@ -689,9 +689,9 @@ typedef struct {
     uint16_t psc;
 #endif
     /** Tracking Area Code in LTE. */
-//    uint16_t tac;
+    uint16_t tac;
     /** Physical Cell id in LTE (not used in 2G and 3G) */
-//    uint16_t pcid;
+    uint16_t pcid;
 } AGpsRefLocationCellID;
 
 typedef struct {
