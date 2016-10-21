@@ -527,6 +527,11 @@ typedef uint8_t                         GnssConstellationType;
  */
 #define AGPS_USE_PSC
 
+/**
+ * After renaming GPS to GNSS in Android N GPSCallbacks structs have been changed.
+ * This breaks some GPS blobs (for eg. i9100).
+ */
+#define GPS_LEGACY_CALLBACKS
 
 
 /** Represents a location. */
@@ -798,9 +803,10 @@ typedef struct {
     gps_release_wakelock release_wakelock_cb;
     gps_create_thread create_thread_cb;
     gps_request_utc_time request_utc_time_cb;
-
-//    gnss_set_system_info set_system_info_cb;
-//    gnss_sv_status_callback gnss_sv_status_cb;
+#ifndef GPS_LEGACY_CALLBACKS
+    gnss_set_system_info set_system_info_cb;
+    gnss_sv_status_callback gnss_sv_status_cb;
+#endif
 } GpsCallbacks;
 
 /** Represents the standard GPS interface. */
