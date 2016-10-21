@@ -65,6 +65,9 @@ PRODUCT_PACKAGES := \
 PRODUCT_PACKAGES += \
     libsamsung_symbols \
     ril-wrapper
+# Legacy GPS
+PRODUCT_PACKAGES += \
+    gps.smdk4210
 
 # Audio Packages
 PRODUCT_PACKAGES += \
