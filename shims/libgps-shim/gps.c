@@ -35,7 +35,7 @@ void (*vendor_set_ref_location)(const AGpsRefLocationNoLTE *agps_reflocation, si
 void shim_set_ref_location(const AGpsRefLocation *agps_reflocation, size_t sz_struct) {
 	// this is mildly ugly
 	AGpsRefLocationNoLTE vendor_ref;
-	if (sizeof(AGpsRefLocationNoLTE) < sz_struct) {
+	if (sizeof(AGpsRefLocationNoLTE) > sz_struct) {
 		ALOGE("%s: AGpsRefLocation is too small, bailing out!", __func__);
 		return;
 	}
@@ -62,15 +62,21 @@ const void* shim_get_extension(const char* name) {
 	}
 }
 
-const void* (*shim_init)(const GpsCallbacks* gpsCallbacks) {
-	if (sizeof(GpsCallbacks_Legacy) < sizeof(GpsCallbacks)) {
-		ALOGE("%s: resizing GpsCallbacks size %d to legacy size %d", __func__, sizeof(GpsCallbacks), sizeof(GpsCallbacks_Legacy));
-                //This ignores the new introduced callbacks in N.
-		gpsCallbacks->size = sizeof(GpsCallbacks_Legacy);
+const void* shim_init(GpsCallbacks* gpsCallbacks) {
+	GpsCallbacks_Legacy vendor_gpsCallbacks;
+	void* result;
+	if (sizeof(GpsCallbacks_Legacy) >= gpsCallbacks->size) {
+		ALOGE("%s: Calling vendor init", __func__);
+		return vendor_init(&vendor_gpsCallbacks);
 	}
-	ALOGE("%s: Calling vendor's init-method", __func__);
-	return vendor_init(gpsCallbacks);
-
+	ALOGE("%s: shimming GpsCallbacks", __func__);
+	// the two structs are identical, so this is ok
+	memcpy(&vendor_gpsCallbacks, gpsCallbacks, sizeof(GpsCallbacks_Legacy));
+	ALOGE("%s: Calling vendor init", __func__);
+	result = vendor_init(&vendor_gpsCallbacks);
+	// copy it back
+	memcpy(gpsCallbacks, &vendor_gpsCallbacks, sizeof(GpsCallbacks_Legacy));
+	return result;
 }
 
 const GpsInterface* shim_get_gps_interface(struct gps_device_t* dev) {

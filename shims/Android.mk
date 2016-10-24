@@ -14,5 +14,4 @@
 
 LOCAL_PATH := $(call my-dir)
 
-$(call all-makefiles-under, $(LOCAL_PATH))
-
+include $(call all-makefiles-under,$(LOCAL_PATH))

@@ -527,12 +527,6 @@ typedef uint8_t                         GnssConstellationType;
  */
 #define AGPS_USE_PSC
 
-/**
- * After renaming GPS to GNSS in Android N GPSCallbacks structs have been changed.
- * Some GPS-blobs fails at "native_init" (for eg. i9100).
- */
-#define GPS_LEGACY_CALLBACKS
-
 
 /** Represents a location. */
 typedef struct {
@@ -683,11 +677,12 @@ typedef struct {
      * might rely in the old (wrong) behavior.
      */
     uint16_t lac;
-    /** Cell id in 2G. Utran Cell id in 3G. Cell Global Id EUTRA in LTE. */
-    uint32_t cid;
 #ifdef AGPS_USE_PSC
     uint16_t psc;
 #endif
+    /** Cell id in 2G. Utran Cell id in 3G. Cell Global Id EUTRA in LTE. */
+    uint32_t cid;
+    /* The new properties below are new since N and will be 'removed' by GPS-shim */
     /** Tracking Area Code in LTE. */
     uint16_t tac;
     /** Physical Cell id in LTE (not used in 2G and 3G) */
@@ -803,10 +798,10 @@ typedef struct {
     gps_release_wakelock release_wakelock_cb;
     gps_create_thread create_thread_cb;
     gps_request_utc_time request_utc_time_cb;
-#ifndef GPS_LEGACY_CALLBACKS
+
+    /* The new properties below are new since N and will be 'removed' by GPS-shim */
     gnss_set_system_info set_system_info_cb;
     gnss_sv_status_callback gnss_sv_status_cb;
-#endif
 } GpsCallbacks;
 
 /** Represents the standard GPS interface. */

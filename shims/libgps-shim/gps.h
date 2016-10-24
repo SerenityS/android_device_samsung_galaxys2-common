@@ -15,7 +15,6 @@
  */
 #include <hardware/gps.h>
 
-/** New GPS callback structure. */
 typedef struct {
     /** set to sizeof(GpsCallbacks_Legacy) */
     size_t      size;
@@ -27,9 +26,46 @@ typedef struct {
     gps_acquire_wakelock acquire_wakelock_cb;
     gps_release_wakelock release_wakelock_cb;
     gps_create_thread create_thread_cb;
+    gps_request_utc_time request_utc_time_cb;
 #if 0 //Introduced since N, but causes failure in init.
     gnss_set_system_info set_system_info_cb;
     gnss_sv_status_callback gnss_sv_status_cb;
 #endif
 
 } GpsCallbacks_Legacy;
+
+/* CellID for 2G, 3G and LTE, used in AGPS. */
+typedef struct {
+    AGpsRefLocationType type;
+    /** Mobile Country Code. */
+    uint16_t mcc;
+    /** Mobile Network Code .*/
+    uint16_t mnc;
+    /** Location Area Code in 2G, 3G and LTE. In 3G lac is discarded. In LTE,
+     * lac is populated with tac, to ensure that we don't break old clients that
+     * might rely in the old (wrong) behavior.
+     */
+#ifdef AGPS_USE_PSC
+    uint16_t psc;
+#endif
+    uint16_t lac;
+    /** Cell id in 2G. Utran Cell id in 3G. Cell Global Id EUTRA in LTE. */
+    uint32_t cid;
+#if 0 // introduced in N.
+    /** Tracking Area Code in LTE. */
+    uint16_t tac;
+    /** Physical Cell id in LTE (not used in 2G and 3G) */
+    uint16_t pcid;
+#endif
+} AGpsRefLocationCellIDNoLTE;
+
+/** Represents ref locations */
+typedef struct {
+    AGpsRefLocationType type;
+    union {
+        AGpsRefLocationCellIDNoLTE	cellID;
+		AGpsRefLocationMac			mac;
+    } u;
+} AGpsRefLocationNoLTE;
+
+
